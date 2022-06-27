@@ -1,0 +1,70 @@
+﻿<Window x:Class="WpfArduino.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfArduino" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel LastChildFill="True">
+
+        <Label DockPanel.Dock="Top" x:Name="lblPortData" FontSize="48" HorizontalAlignment="Center" Margin="0,20,0,0">Нет данных</Label>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel  Grid.Column="0" Orientation="Vertical"
+                         >
+                <ComboBox Name="cbbeffects" SelectionChanged="cbbeffects_SelectionChanged"
+                          SelectedValuePath="Id"
+                          DisplayMemberPath="Name" >
+                    <ComboBox.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="Control.ToolTip" Value="{Binding Description}" />
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+                </ComboBox>
+                <xctk:ColorPicker x:Name="color" SelectedColorChanged="color_SelectedColorChanged"/>
+                <TextBlock Text="{Binding ElementName=color, Path=SelectedColorText}"/>
+                <Button x:Name="btnZero" Click="btnZero_Click" IsDefault="True" Width="100" Height="30" Margin="0,10,0,0">Послать 0</Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Column="1" >
+                <!--<Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>-->
+                <!--</Grid.ColumnDefinitions>-->
+                <TextBox  Width="150" Height="30" x:Name="text"  Grid.Column="0"></TextBox>
+                <Button Width="120" Height="30" Click="btnSendText_Click" Content="Отправить команду"  ></Button>
+            </StackPanel>
+
+            <StackPanel  Grid.Column="2" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Яркость"/>
+                    <TextBlock Text="{Binding ElementName=slider, Path=Value,StringFormat={}{0:#}}"/>
+                </StackPanel>
+
+                <Slider  x:Name="slider"
+                IsMoveToPointEnabled="True"
+                         Interval="1"
+                         TickFrequency="10"
+                         IsSnapToTickEnabled="True"
+                         Minimum="0" Maximum="255" 
+                         ValueChanged="Slider_ValueChanged"  ></Slider>
+            </StackPanel>
+        </Grid>
+        <DockPanel>
+           
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <CheckBox IsChecked="True" Content="Autoscroll" x:Name="autoscroll"/>
+                <CheckBox IsChecked="True" Content="skipdebug" x:Name="skipdebug"/>
+            </StackPanel>
+            <ListBox Grid.Row="1" VerticalAlignment="Stretch" x:Name="listbox" />
+        </DockPanel>
+    </DockPanel>
+</Window>
